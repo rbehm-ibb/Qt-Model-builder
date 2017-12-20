@@ -43,7 +43,13 @@ void DataStructModel::addType(QString type, QString convert)
 
 DataStructModel::DataStructModel(QObject *parent)
 	: QAbstractTableModel(parent)
-	, m_header( { "Type", "Convert", "Name", "Id" })
+	, m_header( { "Type", "Convert", "Name", "Column-Id" })
+	, m_tooltip ( {
+	 "Type name for this member",
+	  "Function to convert QVariant to this member",
+	  "Member name",
+	  "Column-Id used for this member"
+			} )
 	, m_stdRoles( { Qt::DisplayRole, Qt::EditRole })
 {
 }
@@ -112,6 +118,7 @@ bool DataStructModel::setData(const QModelIndex &index, const QVariant &value, i
 				}
 				return true;
 			}
+			break;
 		}
 	}
 	return false;
@@ -126,6 +133,7 @@ QVariant DataStructModel::data(const QModelIndex &index, int role) const
 		{
 		case Qt::DisplayRole:
 		case Qt::EditRole:
+		{
 			const auto &t = m_data[index.row()];
 			switch (index.column())
 			{
@@ -138,6 +146,14 @@ QVariant DataStructModel::data(const QModelIndex &index, int role) const
 			case Id:
 				return t.m_id;
 			}
+		}
+			break;
+		case Qt::ToolTipRole:
+		case Qt::WhatsThisRole:
+			if (index.column() < m_tooltip.count())
+			{
+				return m_tooltip[index.column()];
+			}
 			break;
 		}
 	}
@@ -146,8 +162,9 @@ QVariant DataStructModel::data(const QModelIndex &index, int role) const
 
 QVariant DataStructModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if (role == Qt::DisplayRole)
+	switch (role)
 	{
+	case Qt::DisplayRole:
 		if (orientation == Qt::Horizontal)
 		{
 			if (section <= columnCount())
@@ -159,6 +176,15 @@ QVariant DataStructModel::headerData(int section, Qt::Orientation orientation, i
 		{
 			return section;
 		}
+		break;
+	case Qt::ToolTipRole:
+	case Qt::WhatsThisRole:
+		if (section < m_tooltip.count())
+		{
+			return m_tooltip[section];
+		}
+		break;
+
 	}
 	return QVariant();
 }

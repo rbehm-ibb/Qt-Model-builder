@@ -5,6 +5,7 @@
 // ******************************************************
 
 #include "datastructmodel.h"
+#include "config.h"
 
 void DataStructModel::createSource()
 {
@@ -27,8 +28,12 @@ void DataStructModel::createSource()
 	QString ifs(name.toUpper() + "_H");
 	QString entryBlabla("// *************************************\n"
 			    "// * Created by %1, %2\n"
-			    "// * %3\n// *************************************\n\n");
-	entryBlabla = entryBlabla.arg(qApp->applicationName()).arg(qApp->applicationVersion()).arg(QDateTime::currentDateTime().toString());
+			    "// * %3 by %4\n// *************************************\n\n");
+	entryBlabla = entryBlabla
+			.arg(qApp->applicationName())
+			.arg(qApp->applicationVersion())
+			.arg(QDateTime::currentDateTime().toString())
+			.arg(Config::sysUser());
 	sh
 		<< entryBlabla
 		<< "#ifndef " << ifs << endl

@@ -1,6 +1,5 @@
 *~
 CVS
-.cvsignore
 *.pro.user
 .build
 unused

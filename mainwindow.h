@@ -40,6 +40,7 @@ private:
 	void loadModel(QString name);
 	Ui::MainWindow *ui;
 	DataStructModel *m_dataStructModel;
+	QLabel *m_filenameLabel;
 };
 
 #endif // MAINWINDOW_H

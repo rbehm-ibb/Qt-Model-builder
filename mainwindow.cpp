@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->dataStructView->addAction(ui->actionAddType);
 	ui->dataStructView->addAction(ui->actionDelType);
 	connect(m_dataStructModel, &DataStructModel::nameChanged, this, &MainWindow::nameChanged);
+	ui->statusbar->addPermanentWidget(m_filenameLabel = new QLabel);
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +68,7 @@ void MainWindow::on_actionSave_triggered()
 	if (! fn.isEmpty())
 	{
 		saveModel(fn);
+		m_filenameLabel->setText(fn);
 	}
 }
 
@@ -148,8 +150,8 @@ void MainWindow::saveModel(QString name)
 		guiToModel();
 		Config::setValue("file/name", name);
 		m_dataStructModel->save(s);
+		m_filenameLabel->setText(name);
 	}
-
 }
 
 void MainWindow::loadModel(QString name)
@@ -159,5 +161,6 @@ void MainWindow::loadModel(QString name)
 	{
 		Config::setValue("file/name", name);
 		m_dataStructModel->load(s);
+		m_filenameLabel->setText(name);
 	}
 }

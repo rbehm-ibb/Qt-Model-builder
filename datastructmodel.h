@@ -75,7 +75,7 @@ public slots:
 private slots:
 protected:
 private:
-	const QStringList m_header;
+	const QStringList m_header, m_tooltip;
 	const QVector<int> m_stdRoles;
 	QVector<DataStruct> m_data;
 	static QVector<TypePair> m_types;
