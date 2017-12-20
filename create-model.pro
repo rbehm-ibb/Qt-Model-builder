@@ -31,3 +31,7 @@ FORMS += \
 
 RESOURCES += \
     logo.qrc
+
+DISTFILES += \
+    README.md \
+    LICENSE
