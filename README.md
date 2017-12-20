@@ -1,8 +1,9 @@
 # Qt-Model-builder
-
-Creates a QTableModel with .h and .cpp soucre generation from minimum data entry
+## V1.1
 
 <img src="logo.png">
+
+Creates a QTableModel with .h and .cpp soucre generation from minimum data entry
 
 Compiled and tested on Linux with Qt 5.5
 
