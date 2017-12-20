@@ -2,6 +2,6 @@
 CVS
 *.pro.user
 .build
-unused
+bin
 Makefile
 
