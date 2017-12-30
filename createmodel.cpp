@@ -9,8 +9,7 @@
 
 void DataStructModel::createSource()
 {
-//	qDebug() << Q_FUNC_INFO << m_name;
-	QString name = m_name.toLower();
+	QString name = m_fileInfo.dir().absoluteFilePath(m_name.toLower());
 	QFile fh(name + ".h");
 	if (! fh.open((QIODevice::WriteOnly)))
 	{
@@ -18,6 +17,7 @@ void DataStructModel::createSource()
 		return;
 	}
 	QFile fc(name + ".cpp");
+//	qDebug() << Q_FUNC_INFO << fc.fileName();
 	if (! fc.open((QIODevice::WriteOnly)))
 	{
 		qWarning() << Q_FUNC_INFO << fc.fileName() << fc.errorString();

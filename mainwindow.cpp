@@ -123,7 +123,6 @@ void MainWindow::nameChanged()
 
 void MainWindow::on_actionCreateModel_triggered()
 {
-	qDebug() << Q_FUNC_INFO;
 	guiToModel();
 	m_dataStructModel->createSource();
 }

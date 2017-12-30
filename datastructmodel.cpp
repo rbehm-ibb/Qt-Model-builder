@@ -218,6 +218,7 @@ void DataStructModel::save(QSettings &s)
 
 bool DataStructModel::load(QSettings &s)
 {
+	m_fileInfo = QFileInfo(s.fileName());
 	s.beginGroup("data");
 	m_dataName = s.value("name").toString();
 	beginResetModel();

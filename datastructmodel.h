@@ -81,6 +81,7 @@ private:
 	static QVector<TypePair> m_types;
 	QString m_name;
 	QString m_dataName;
+	QFileInfo m_fileInfo;
 	bool m_readOnly;
 	bool m_insert;
 	bool m_remove;
