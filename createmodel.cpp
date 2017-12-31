@@ -9,14 +9,17 @@
 
 void DataStructModel::createSource()
 {
-	QString name = m_fileInfo.dir().absoluteFilePath(m_name.toLower());
-	QFile fh(name + ".h");
+	QString name = m_name.toLower();
+	m_name[0] = m_name[0].toUpper();
+	QString dataVectorName = m_dataName + "Vector";
+	QDir destDir = m_fileInfo.dir();
+	QFile fh(destDir.absoluteFilePath(name + ".h"));
 	if (! fh.open((QIODevice::WriteOnly)))
 	{
 		qWarning() << Q_FUNC_INFO << fh.fileName() << fh.errorString();
 		return;
 	}
-	QFile fc(name + ".cpp");
+	QFile fc(destDir.absoluteFilePath(name + ".cpp"));
 //	qDebug() << Q_FUNC_INFO << fc.fileName();
 	if (! fc.open((QIODevice::WriteOnly)))
 	{
@@ -50,7 +53,8 @@ void DataStructModel::createSource()
 		idls << "\"" + d.m_id + "\"";
 	}
 	idl << "NCols";
-	sh << "};" << endl << endl
+	sh << "};" << endl
+	   << "typedef QVector<" << m_dataName << "> " << dataVectorName << ";" << endl << endl
 	   << "class " << m_name << " : public QAbstractTableModel" << endl
 	   << "{" << endl
 	   << "\tQ_OBJECT" << endl
@@ -91,10 +95,10 @@ void DataStructModel::createSource()
 	}
 	if (m_directAccess)
 	{
-		sh << "\tconst QVector<" << m_dataName << "> & data() const { return m_data; }" << endl;
+		sh << "\tconst " << dataVectorName << " & data() const { return m_data; }" << endl;
 		if (! m_readOnly)
 		{
-			sh << "\tvoid setData(const QVector<" << m_dataName << "> &d);" << endl;
+			sh << "\tvoid setData(const " << dataVectorName << " &d);" << endl;
 		}
 	}
 	if (m_indexedAccess)
@@ -104,7 +108,7 @@ void DataStructModel::createSource()
 	sh << "private:" << endl
 	   << "\tconst QStringList m_header;" << endl
 	   << "\tconst QVector<int> m_stdRoles;" << endl
-	   << "\tQVector<" << m_dataName << "> m_data;" << endl
+	   << "\t" << dataVectorName << " m_data;" << endl
 	      ;
 	sh << "};" << endl << endl << "#endif // " << ifs << endl;
 
@@ -127,9 +131,9 @@ void DataStructModel::createSource()
 		sc << endl << QString("void %1::clear()\n{\n\tbeginResetModel();\n\tm_data.clear();\n\tendResetModel();\n}").arg(m_name) << endl;
 		if (m_directAccess)
 		{
-			sc << QString("\nvoid %1::setData(const QVector<%2> &d)\n"
+			sc << QString("\nvoid %1::setData(const %2 &d)\n"
 				      "{\n\tbeginResetModel();\n\tm_data = d;\n\tendResetModel();\n}"
-				      ).arg(m_name).arg(m_dataName)
+				      ).arg(m_name).arg(dataVectorName)
 			   << endl;
 		}
 		// setData(..)
