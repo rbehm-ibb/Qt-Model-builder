@@ -69,6 +69,15 @@ public:
 	bool editable() const { return m_editable; }
 	void setEditable(bool editable) { m_editable = editable; }
 
+	bool translate() const { return m_translate; }
+	void setTranslate(bool translate) { m_translate = translate; }
+
+	bool debug() const { return m_debug; }
+	void setDebug(bool debug) { m_debug = debug; }
+
+	bool dataStream() const { return m_dataStream; }
+	void setDataStream(bool dataStream) { m_dataStream = dataStream; }
+
 signals:
 	void nameChanged();
 public slots:
@@ -87,6 +96,10 @@ private:
 	bool m_directAccess;
 	bool m_indexedAccess;
 	bool m_editable;
+	bool m_translate;
+	bool m_debug;
+	bool m_dataStream;
+
 };
 
 #endif // DATASTRUCTMODEL_H

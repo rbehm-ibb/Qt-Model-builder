@@ -1,6 +1,6 @@
 // *************************************
-// * Created by model-builder, V1.1
-// * Wed Dec 20 17:35:12 2017 by behm
+// * Created by model-builder, V1.2
+// * Wed Dec 20 18:27:50 2017 by behm
 // *************************************
 
 #include "demomodel.h"

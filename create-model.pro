@@ -1,5 +1,5 @@
 # // ******************************************************
-# // * copyright (C) 2016 by Reinhardt Behm/rbehm@hushmail.com
+# // * copyright (C) 2017 by Reinhardt Behm/rbehm@hushmail.com
 # // * All Rights reserved
 # // ******************************************************
 
@@ -16,7 +16,8 @@ HEADERS += \
     mainwindow.h \
     datastructmodel.h \
     datastructtypedelegate.h \
-    datastructnamedelegate.h
+    datastructnamedelegate.h \
+    tableviewwithadddel.h
 
 SOURCES +=  \
     main.cpp \
@@ -24,7 +25,8 @@ SOURCES +=  \
     datastructmodel.cpp \
     datastructtypedelegate.cpp \
     datastructnamedelegate.cpp \
-    createmodel.cpp
+    createmodel.cpp \
+    tableviewwithadddel.cpp
 
 FORMS += \
     mainwindow.ui

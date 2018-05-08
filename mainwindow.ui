@@ -37,6 +37,20 @@
        <string>Model Properties</string>
       </property>
       <layout class="QFormLayout" name="formLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_8">
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="modelName">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The model name. Also used for the file name to create.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="1">
         <widget class="QCheckBox" name="cbReadOnly">
          <property name="text">
@@ -54,13 +68,6 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QCheckBox" name="cbInsert">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_4">
          <property name="toolTip">
@@ -71,8 +78,8 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QCheckBox" name="cbRemove">
+       <item row="2" column="1">
+        <widget class="QCheckBox" name="cbInsert">
          <property name="text">
           <string/>
          </property>
@@ -88,8 +95,8 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QCheckBox" name="cbDirectAcess">
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="cbRemove">
          <property name="text">
           <string/>
          </property>
@@ -102,6 +109,13 @@
          </property>
          <property name="text">
           <string>Direct Data Access</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="cbDirectAcess">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -122,13 +136,6 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLineEdit" name="modelName">
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The model name. Also used for the file name to create.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
        <item row="6" column="0">
         <widget class="QLabel" name="label_2">
          <property name="toolTip">
@@ -141,6 +148,48 @@
        </item>
        <item row="6" column="1">
         <widget class="QCheckBox" name="cbEditable">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="text">
+          <string>Translate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="1">
+        <widget class="QCheckBox" name="cbTranslate">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="text">
+          <string>QDataStream &lt;&lt;/&gt;&gt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="1">
+        <widget class="QCheckBox" name="cbDataStream">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>QDebug &lt;&lt;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="1">
+        <widget class="QCheckBox" name="cbDebug">
          <property name="text">
           <string/>
          </property>
@@ -183,9 +232,15 @@
         </layout>
        </item>
        <item>
-        <widget class="QTableView" name="dataStructView">
+        <widget class="TableViewWithAddDel" name="dataStructView">
          <property name="contextMenuPolicy">
-          <enum>Qt::ActionsContextMenu</enum>
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SingleSelection</enum>
          </property>
          <attribute name="horizontalHeaderCascadingSectionResizes">
           <bool>true</bool>
@@ -238,7 +293,7 @@
   </widget>
   <action name="actionQuit">
    <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
+    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
      <normaloff>:/stdicons/exit.png</normaloff>:/stdicons/exit.png</iconset>
    </property>
    <property name="text">
@@ -250,7 +305,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
+    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
      <normaloff>:/fileopen</normaloff>:/fileopen</iconset>
    </property>
    <property name="text">
@@ -265,7 +320,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
+    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
      <normaloff>:/doc-save</normaloff>:/doc-save</iconset>
    </property>
    <property name="text">
@@ -280,7 +335,7 @@
   </action>
   <action name="actionSaveAs">
    <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
+    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
      <normaloff>:/doc-save-as</normaloff>:/doc-save-as</iconset>
    </property>
    <property name="text">
@@ -290,27 +345,9 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Save the model dscription under a new name.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </action>
-  <action name="actionAddType">
-   <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
-     <normaloff>:/stdicons/add.png</normaloff>:/stdicons/add.png</iconset>
-   </property>
-   <property name="text">
-    <string>AddType</string>
-   </property>
-  </action>
-  <action name="actionDelType">
-   <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
-     <normaloff>:/stdicons/delete.png</normaloff>:/stdicons/delete.png</iconset>
-   </property>
-   <property name="text">
-    <string>DelType</string>
-   </property>
-  </action>
   <action name="actionCreateModel">
    <property name="icon">
-    <iconset resource="../../lib/utils/stdicons.qrc">
+    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
      <normaloff>:/wizard</normaloff>:/wizard</iconset>
    </property>
    <property name="text">
@@ -321,9 +358,16 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TableViewWithAddDel</class>
+   <extends>QTableView</extends>
+   <header>tableviewwithadddel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="../../lib/utils/stdicons.qrc"/>
   <include location="logo.qrc"/>
+  <include location="templateQt5/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>

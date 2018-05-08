@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	app.setApplicationName("model-builder");
-	app.setApplicationVersion("V1.1");
+	app.setApplicationVersion("V1.5");
 	app.setOrganizationDomain("avioscout.net");
 	app.setOrganizationName("R.Behm");
 	{
@@ -19,8 +19,6 @@ int main(int argc, char *argv[])
 		parser.addHelpOption();
 		parser.addVersionOption();
 
-//		QCommandLineOption nameOption(QStringList() << "n" << "name", "Name of CommServer ", "gps", "gps");
-//		parser.addOption(nameOption);
 		parser.process(app);
 	}
 	MainWindow mw;

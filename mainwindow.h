@@ -29,11 +29,10 @@ private slots:
 	void on_actionSaveAs_triggered();
 	void on_actionSave_triggered();
 	void about();
-	void on_actionAddType_triggered();
-	void on_actionDelType_triggered();
 	void nameChanged();
 
 	void on_actionCreateModel_triggered();
+
 private:
 	void guiToModel();
 	void saveModel(QString name);

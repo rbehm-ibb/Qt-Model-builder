@@ -23,8 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 	ui->dataStructView->setModel(m_dataStructModel);
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Type, new DataStructTypeDelegate(this));
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Name, new DataStructNameDelegate(this));
-	ui->dataStructView->addAction(ui->actionAddType);
-	ui->dataStructView->addAction(ui->actionDelType);
 	connect(m_dataStructModel, &DataStructModel::nameChanged, this, &MainWindow::nameChanged);
 	ui->statusbar->addPermanentWidget(m_filenameLabel = new QLabel);
 }
@@ -93,21 +91,6 @@ void MainWindow::about()
 	QMessageBox::about(this, qApp->applicationName(), text);
 }
 
-void MainWindow::on_actionAddType_triggered()
-{
-//	qDebug() << Q_FUNC_INFO;
-	m_dataStructModel->insertRow(ui->dataStructView->currentIndex().row());
-}
-
-void MainWindow::on_actionDelType_triggered()
-{
-//	qDebug() << Q_FUNC_INFO;
-	if (ui->dataStructView->currentIndex().isValid())
-	{
-		m_dataStructModel->removeRow(ui->dataStructView->currentIndex().row());
-	}
-}
-
 void MainWindow::nameChanged()
 {
 //	qDebug() << Q_FUNC_INFO;
@@ -119,11 +102,14 @@ void MainWindow::nameChanged()
 	ui->cbDirectAcess->setChecked(m_dataStructModel->directAccess());
 	ui->cbIndexAccess->setChecked(m_dataStructModel->indexedAccess());
 	ui->cbEditable->setChecked(m_dataStructModel->editable());
+	ui->cbTranslate->setChecked(m_dataStructModel->translate());
+	ui->cbDebug->setChecked(m_dataStructModel->debug());
+	ui->cbDataStream->setChecked(m_dataStructModel->dataStream());
 }
 
 void MainWindow::on_actionCreateModel_triggered()
 {
-	qDebug() << Q_FUNC_INFO;
+//	qDebug() << Q_FUNC_INFO;
 	guiToModel();
 	m_dataStructModel->createSource();
 }
@@ -138,6 +124,9 @@ void MainWindow::guiToModel()
 	m_dataStructModel->setDirectAccess(ui->cbDirectAcess->isChecked());
 	m_dataStructModel->setIndexedAccess(ui->cbIndexAccess->isChecked());
 	m_dataStructModel->setEditable(ui->cbEditable->isChecked() && ! m_dataStructModel->readOnly());
+	m_dataStructModel->setTranslate(ui->cbTranslate->isChecked());
+	m_dataStructModel->setDebug(ui->cbDebug->isChecked());
+	m_dataStructModel->setDataStream(ui->cbDataStream->isChecked());
 }
 
 void MainWindow::saveModel(QString name)

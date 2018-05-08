@@ -7,6 +7,7 @@
 #include "datastructmodel.h"
 
 QVector<TypePair> DataStructModel::m_types( {
+						    TypePair("bool", "toBool"),
 						    TypePair("int", "toInt"),
 						    TypePair("qint8", "toInt"),
 						    TypePair("qint16", "toInt"),
@@ -212,6 +213,9 @@ void DataStructModel::save(QSettings &s)
 	s.setValue("directAcess", m_directAccess);
 	s.setValue("indexAccess", m_indexedAccess);
 	s.setValue("editable", m_editable);
+	s.setValue("translate", m_translate);
+	s.setValue("debug", m_debug);
+	s.setValue("dataStream", m_dataStream);
 	s.endGroup();
 	emit nameChanged();
 }
@@ -244,6 +248,9 @@ bool DataStructModel::load(QSettings &s)
 	m_directAccess = s.value("directAcess").toBool();
 	m_indexedAccess = s.value("indexAccess").toBool();
 	m_editable = s.value("editable").toBool();
+	m_translate = s.value("translate").toBool();
+	m_debug = s.value("debug").toBool();
+	m_dataStream = s.value("dataStream").toBool();
 	s.endGroup();
 //	qDebug() << Q_FUNC_INFO << m_name << m_dataName << m_readOnly << m_insert << m_remove << m_directAccess << m_indexedAccess;
 	emit nameChanged();
@@ -252,9 +259,9 @@ bool DataStructModel::load(QSettings &s)
 
 bool DataStructModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-	row = qBound(0, row, rowCount());
-	DataStruct dummy;
-	beginInsertRows(parent, row, row + count - 1);
+    row = qBound(0, row, rowCount());
+    DataStruct dummy;
+    beginInsertRows(parent, row, row + count - 1);
 	m_data.insert(row, count, dummy);
 	endInsertRows();
 	return true;

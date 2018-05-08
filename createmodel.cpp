@@ -9,15 +9,17 @@
 
 void DataStructModel::createSource()
 {
-//	qDebug() << Q_FUNC_INFO << m_name;
+	QString vecName("%1Vector");
+	vecName = vecName.arg(m_dataName);
+	QFileInfo fi(Config::stringValue("file/name"));
 	QString name = m_name.toLower();
-	QFile fh(name + ".h");
+	QFile fh(fi.absoluteDir().absoluteFilePath(name + ".h"));	// create source files with model name in same dir
 	if (! fh.open((QIODevice::WriteOnly)))
 	{
 		qWarning() << Q_FUNC_INFO << fh.fileName() << fh.errorString();
 		return;
 	}
-	QFile fc(name + ".cpp");
+	QFile fc(fi.absoluteDir().absoluteFilePath(name + ".cpp"));
 	if (! fc.open((QIODevice::WriteOnly)))
 	{
 		qWarning() << Q_FUNC_INFO << fc.fileName() << fc.errorString();
@@ -41,16 +43,35 @@ void DataStructModel::createSource()
 		<< endl;
 
 	sh << "struct " << m_dataName << endl << "{" << endl;
+	sh << "\t" << m_dataName << "() {}" << endl;
+	if (m_debug)
+	{
+		sh << "\tfriend QDebug operator<<(QDebug dbg, const " << m_dataName << " &d);" << endl;
+	}
+	if (m_dataStream)
+	{
+		sh << "\tfriend QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d);" << endl;
+		sh << "\tfriend QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d);" << endl;
+	}
 	QStringList idl;
 	QStringList idls;
 	foreach (const DataStruct &d, m_data)
 	{
 		sh << "\t" << d.m_type << " " << d.m_name << ";" << endl;
 		idl << d.m_id;
-		idls << "\"" + d.m_id + "\"";
+		if (translate())
+		{
+			idls << "tr(\"" + d.m_id + "\")";
+		}
+		else
+		{
+			idls << "\"" + d.m_id + "\"";
+		}
 	}
 	idl << "NCols";
-	sh << "};" << endl << endl
+	sh << "};" << endl
+	   << "typedef QVector<" << m_dataName << "> " << vecName << ";" << endl
+	   << "Q_DECLARE_METATYPE(" << m_dataName << ")" << endl << endl
 	   << "class " << m_name << " : public QAbstractTableModel" << endl
 	   << "{" << endl
 	   << "\tQ_OBJECT" << endl
@@ -91,10 +112,10 @@ void DataStructModel::createSource()
 	}
 	if (m_directAccess)
 	{
-		sh << "\tconst QVector<" << m_dataName << "> & data() const { return m_data; }" << endl;
+		sh << "\tconst " << vecName << " & data() const { return m_data; }" << endl;
 		if (! m_readOnly)
 		{
-			sh << "\tvoid setData(const QVector<" << m_dataName << "> &d);" << endl;
+			sh << "\tvoid setData(const " << vecName << " &d);" << endl;
 		}
 	}
 	if (m_indexedAccess)
@@ -104,7 +125,7 @@ void DataStructModel::createSource()
 	sh << "private:" << endl
 	   << "\tconst QStringList m_header;" << endl
 	   << "\tconst QVector<int> m_stdRoles;" << endl
-	   << "\tQVector<" << m_dataName << "> m_data;" << endl
+	   << "\t" << vecName << " m_data;" << endl
 	      ;
 	sh << "};" << endl << endl << "#endif // " << ifs << endl;
 
@@ -127,9 +148,9 @@ void DataStructModel::createSource()
 		sc << endl << QString("void %1::clear()\n{\n\tbeginResetModel();\n\tm_data.clear();\n\tendResetModel();\n}").arg(m_name) << endl;
 		if (m_directAccess)
 		{
-			sc << QString("\nvoid %1::setData(const QVector<%2> &d)\n"
+			sc << QString("\nvoid %1::setData(const %2 &d)\n"
 				      "{\n\tbeginResetModel();\n\tm_data = d;\n\tendResetModel();\n}"
-				      ).arg(m_name).arg(m_dataName)
+				      ).arg(m_name).arg(vecName)
 			   << endl;
 		}
 		// setData(..)
@@ -187,6 +208,7 @@ void DataStructModel::createSource()
 			      "{\n\trow = qBound(0, row, rowCount());\n"
 			      "\t%2 dummy;\n"
 			      "\tbeginInsertRows(parent, row, row + count - 1);\n"
+			      "\tm_data.insert(row, dummy);\n"
 			      "\tendInsertRows();\n"
 			      "\treturn true;\n}"
 			      ).arg(m_name).arg(m_dataName) << endl;
@@ -200,5 +222,49 @@ void DataStructModel::createSource()
 			      "\t{\n\t\tm_data.removeAt(row);\n"
 			      "\t}\n\treturn true;\n}"
 			      ).arg(m_name) << endl;
+	}
+	if (m_debug)
+	{
+		sc << endl
+		   << "QDebug operator<<(QDebug dbg, const " << m_dataName << " &d)" << endl
+		   << "{\treturn dbg" << endl
+		   << "\t\t<< \" " << m_dataName << "[\"" << endl
+		      ;
+		foreach (const DataStruct &d, m_data)
+		{
+			sc << "\t\t<< "<< d.m_name << endl;
+		}
+		sc << "\t\t<< \"]\";" << endl
+		   << "}" << endl << endl
+		      ;
+	}
+	if (m_dataStream)
+	{
+		sc 		<< endl
+				<< "QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d)" << endl
+				<< "{\treturn s" << endl
+				   ;
+		foreach (const DataStruct &d, m_data)
+		{
+			sc << "\t\t<< "<< d.m_name << endl;
+		}
+		sc << "\t\t<< ;" << endl
+		   << "}" << endl << endl
+		      ;
+
+		sc << endl
+		   << "QDataStream & operator>>(QDataStream &s, const " << m_dataName << " &d)" << endl
+		   << "{" << endl
+		   << "\treturn s" << endl
+		      ;
+		foreach (const DataStruct &d, m_data)
+		{
+			sc << "\t\t>> "<< d.m_name << endl;
+		}
+		sc << "\t\t;" << endl
+		   << "}" << endl
+		      ;
+
+
 	}
 }
