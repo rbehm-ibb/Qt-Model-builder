@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	app.setApplicationName("model-builder");
-	app.setApplicationVersion("V1.5");
+	app.setApplicationVersion("V1.6");
 	app.setOrganizationDomain("avioscout.net");
 	app.setOrganizationName("R.Behm");
 	{
