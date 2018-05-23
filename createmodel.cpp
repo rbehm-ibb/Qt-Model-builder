@@ -220,7 +220,9 @@ void DataStructModel::createSource()
 			      "\tbeginRemoveRows(parent, row, row + count - 1);\n"
 			      "\tfor (int i = 0; i < count; ++i)\n"
 			      "\t{\n\t\tm_data.removeAt(row);\n"
-			      "\t}\n\treturn true;\n}"
+			      "\t}\n"
+			      "\tendRemoveRows();\n"
+			      "\treturn true;\n}"
 			      ).arg(m_name) << endl;
 	}
 	if (m_debug)
@@ -230,10 +232,12 @@ void DataStructModel::createSource()
 		   << "{\treturn dbg" << endl
 		   << "\t\t<< \" " << m_dataName << "[\"" << endl
 		      ;
+		QStringList sl;
 		foreach (const DataStruct &d, m_data)
 		{
-			sc << "\t\t<< "<< d.m_name << endl;
+			sl << "\t\t<< d." + d.m_name;
 		}
+		sc << sl.join(" << ','\n") << endl;
 		sc << "\t\t<< \"]\";" << endl
 		   << "}" << endl << endl
 		      ;
@@ -246,20 +250,20 @@ void DataStructModel::createSource()
 				   ;
 		foreach (const DataStruct &d, m_data)
 		{
-			sc << "\t\t<< "<< d.m_name << endl;
+			sc << "\t\t<< d."<< d.m_name << endl;
 		}
-		sc << "\t\t<< ;" << endl
+		sc << "\t\t;" << endl
 		   << "}" << endl << endl
 		      ;
 
 		sc << endl
-		   << "QDataStream & operator>>(QDataStream &s, const " << m_dataName << " &d)" << endl
+		   << "QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d)" << endl
 		   << "{" << endl
 		   << "\treturn s" << endl
 		      ;
 		foreach (const DataStruct &d, m_data)
 		{
-			sc << "\t\t>> "<< d.m_name << endl;
+			sc << "\t\t>> d."<< d.m_name << endl;
 		}
 		sc << "\t\t;" << endl
 		   << "}" << endl
