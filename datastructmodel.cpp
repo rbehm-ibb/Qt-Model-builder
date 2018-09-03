@@ -8,14 +8,16 @@
 
 QVector<TypePair> DataStructModel::m_types( {
 						    TypePair("bool", "toBool"),
+						    TypePair("char", "toChar"),
 						    TypePair("int", "toInt"),
 						    TypePair("qint8", "toInt"),
 						    TypePair("qint16", "toInt"),
 						    TypePair("qint32", "toInt"),
 						    TypePair("quint8", "toUInt"),
-						    TypePair("quint8", "toUInt"),
-						    TypePair("quint8", "toUInt"),
+						    TypePair("quint16", "toUInt"),
+						    TypePair("quint32", "toUInt"),
 						    TypePair("QString", "toString"),
+						    TypePair("QStringList", "toStringList"),
 						    TypePair("QDate", "toDate"),
 						    TypePair("QTime", "toTime"),
 						    TypePair("QDateTime", "toDateTime"),
