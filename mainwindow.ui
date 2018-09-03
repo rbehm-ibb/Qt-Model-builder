@@ -269,7 +269,7 @@
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="IBToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -285,24 +285,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionQuit"/>
    <addaction name="actionOpen"/>
    <addaction name="actionSave"/>
    <addaction name="actionSaveAs"/>
    <addaction name="actionCreateModel"/>
   </widget>
-  <action name="actionQuit">
-   <property name="icon">
-    <iconset resource="templateQt5/lib/utils/stdicons.qrc">
-     <normaloff>:/stdicons/exit.png</normaloff>:/stdicons/exit.png</iconset>
-   </property>
-   <property name="text">
-    <string>Quit</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Q</string>
-   </property>
-  </action>
   <action name="actionOpen">
    <property name="icon">
     <iconset resource="templateQt5/lib/utils/stdicons.qrc">
@@ -360,14 +347,19 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>IBToolBar</class>
+   <extends>QToolBar</extends>
+   <header>ibtoolbar.h</header>
+  </customwidget>
+  <customwidget>
    <class>TableViewWithAddDel</class>
    <extends>QTableView</extends>
    <header>tableviewwithadddel.h</header>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="logo.qrc"/>
   <include location="templateQt5/lib/utils/stdicons.qrc"/>
+  <include location="logo.qrc"/>
  </resources>
  <connections/>
 </ui>

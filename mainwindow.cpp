@@ -7,7 +7,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
-#include "toolbarspacer.h"
+// #include "toolbarspacer.h"
 #include "datastructmodel.h"
 #include "datastructtypedelegate.h"
 #include "datastructnamedelegate.h"
@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	setWindowTitle(qApp->applicationName() + " " + qApp->applicationVersion());
-	ToolBarSpacer::addAbout(ui->toolBar, this, SLOT(about()));
+//	ToolBarSpacer::addAbout(ui->toolBar, this, SLOT(about()));
 	ui->dataStructView->setModel(m_dataStructModel);
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Type, new DataStructTypeDelegate(this));
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Name, new DataStructNameDelegate(this));
@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 	delete ui;
 }
 
-void MainWindow::on_actionQuit_triggered()
+void MainWindow::quit()
 {
 	close();
 }
@@ -70,6 +70,7 @@ void MainWindow::on_actionSave_triggered()
 	}
 }
 
+#if 0
 void MainWindow::about()
 {
 	char year[] = "2017";
@@ -90,6 +91,7 @@ void MainWindow::about()
 		;
 	QMessageBox::about(this, qApp->applicationName(), text);
 }
+#endif
 
 void MainWindow::nameChanged()
 {
