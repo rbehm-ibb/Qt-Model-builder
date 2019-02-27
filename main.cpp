@@ -10,24 +10,34 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	app.setApplicationName("model-builder");
-	app.setApplicationVersion("V1.7");
-	app.setOrganizationDomain("avioscout.net");
-	app.setOrganizationName("R.Behm");
+	app.setApplicationVersion("V1.8");
+	app.setOrganizationDomain("ibb-aviotec.com");
+	app.setOrganizationName("IBB-aviotec");
+	QString modelFile;
 	{
 		const QString logo(":/logo/ibb-logo");
 		app.setProperty("copyright-icon", logo);
 //		app.setWindowIcon(QIcon(":/qt-project.org/qmessagebox/images/qtlogo-64.png"));
-		app.setWindowIcon(QIcon(logo));
+//		app.setWindowIcon(QIcon(logo));
 	}
 	{
 		QCommandLineParser parser;
 		parser.setApplicationDescription(app.applicationName());
 		parser.addHelpOption();
 		parser.addVersionOption();
-
+		parser.addPositionalArgument("model", "model-file");
 		parser.process(app);
+		qDebug() << parser.positionalArguments();
+		if (! parser.positionalArguments().isEmpty())
+		{
+			modelFile = parser.positionalArguments().first();
+		}
 	}
 	MainWindow mw;
 	mw.show();
+	if (! modelFile.isEmpty())
+	{
+		mw.loadModel(modelFile);
+	}
 	return app.exec();
 }
