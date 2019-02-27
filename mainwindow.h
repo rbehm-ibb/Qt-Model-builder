@@ -22,6 +22,7 @@ class MainWindow : public QMainWindow
 public:
 	explicit MainWindow(QWidget *parent = 0);
 	~MainWindow();
+	void loadModel(QString name);
 
 public slots:
 	void quit();
@@ -38,7 +39,6 @@ private slots:
 private:
 	void guiToModel();
 	void saveModel(QString name);
-	void loadModel(QString name);
 	Ui::MainWindow *ui;
 	DataStructModel *m_dataStructModel;
 	QLabel *m_filenameLabel;
