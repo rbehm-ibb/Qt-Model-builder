@@ -7,7 +7,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "config.h"
-// #include "toolbarspacer.h"
 #include "datastructmodel.h"
 #include "datastructtypedelegate.h"
 #include "datastructnamedelegate.h"
@@ -18,9 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_dataStructModel(new DataStructModel(this))
 {
 	ui->setupUi(this);
-	setWindowTitle(qApp->applicationName() + " " + qApp->applicationVersion());
 	ui->toolBar->removeWhatis();
-//	ToolBarSpacer::addAbout(ui->toolBar, this, SLOT(about()));
 	ui->dataStructView->setModel(m_dataStructModel);
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Type, new DataStructTypeDelegate(this));
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Name, new DataStructNameDelegate(this));
@@ -42,7 +39,7 @@ void MainWindow::on_actionOpen_triggered()
 {
 //	qDebug() << Q_FUNC_INFO;
 	QString fn = QFileDialog::getOpenFileName(this, "Load File",
-						  Config::stringValue("file/name", qApp->applicationDirPath()), "*.model");
+			Config::stringValue("file/name", qApp->applicationDirPath()), "*.model");
 	if (! fn.isEmpty())
 	{
 		loadModel(fn);
@@ -53,7 +50,7 @@ void MainWindow::on_actionSaveAs_triggered()
 {
 //	qDebug() << Q_FUNC_INFO;
 	QString fn = QFileDialog::getSaveFileName(this, "Save File",
-						  Config::stringValue("file/name", qApp->applicationDirPath()), "*.model");
+			Config::stringValue("file/name", qApp->applicationDirPath()), "*.model");
 	if (! fn.isEmpty())
 	{
 		saveModel(fn);
@@ -71,29 +68,6 @@ void MainWindow::on_actionSave_triggered()
 	}
 }
 
-#if 0
-void MainWindow::about()
-{
-	char year[] = "2017";
-	QString text("<h1>%1</h1>"
-		     "<p>Version %2"
-		     "<p>&copy; %3, R.Behm <img src=\":/logo/ibb-logo\">"
-//		     "<p>Web: <a href=\"http://%5\">http://%5</a>"
-		     "<p>Mail: <a href=\"mailto:rbehm@hushmail.com\">rbehm@hushmail.com</a>"
-		     "<p>Using  <img src=\":/stdicons/qt-logo-about.png\"> %4"
-		     );
-	text = text
-		.arg(qApp->applicationName())
-		.arg(qApp->applicationVersion())
-		.arg(year)
-//		.arg(qApp->organizationName())
-//		.arg(qApp->organizationDomain())
-		.arg(qVersion())
-		;
-	QMessageBox::about(this, qApp->applicationName(), text);
-}
-#endif
-
 void MainWindow::nameChanged()
 {
 //	qDebug() << Q_FUNC_INFO;
@@ -105,9 +79,12 @@ void MainWindow::nameChanged()
 	ui->cbDirectAcess->setChecked(m_dataStructModel->directAccess());
 	ui->cbIndexAccess->setChecked(m_dataStructModel->indexedAccess());
 	ui->cbEditable->setChecked(m_dataStructModel->editable());
+	ui->cbDrag->setChecked(m_dataStructModel->drag());
 	ui->cbTranslate->setChecked(m_dataStructModel->translate());
 	ui->cbDebug->setChecked(m_dataStructModel->debug());
 	ui->cbDataStream->setChecked(m_dataStructModel->dataStream());
+	ui->cbSaveBin->setChecked(m_dataStructModel->loadBin());
+	ui->cbSaveConf->setChecked(m_dataStructModel->loadConf());
 }
 
 void MainWindow::on_actionCreateModel_triggered()
@@ -127,9 +104,12 @@ void MainWindow::guiToModel()
 	m_dataStructModel->setDirectAccess(ui->cbDirectAcess->isChecked());
 	m_dataStructModel->setIndexedAccess(ui->cbIndexAccess->isChecked());
 	m_dataStructModel->setEditable(ui->cbEditable->isChecked() && ! m_dataStructModel->readOnly());
+	m_dataStructModel->setDrag(ui->cbDrag->isChecked());
 	m_dataStructModel->setTranslate(ui->cbTranslate->isChecked());
 	m_dataStructModel->setDebug(ui->cbDebug->isChecked());
 	m_dataStructModel->setDataStream(ui->cbDataStream->isChecked());
+	m_dataStructModel->setLoadBin(ui->cbSaveBin->isChecked());
+	m_dataStructModel->setLoadConf(ui->cbSaveConf->isChecked());
 }
 
 void MainWindow::saveModel(QString name)

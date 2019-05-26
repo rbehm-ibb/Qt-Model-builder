@@ -78,6 +78,15 @@ public:
 	bool dataStream() const { return m_dataStream; }
 	void setDataStream(bool dataStream) { m_dataStream = dataStream; }
 
+	bool loadBin() const { return m_loadBin; }
+	void setLoadBin(bool loadBin) { m_loadBin = loadBin; if (loadBin) { setDataStream(true); } }
+
+	bool loadConf() const { return m_loadConf; }
+	void setLoadConf(bool loadConf) { m_loadConf = loadConf; }
+
+	bool drag() const { return m_drag; }
+	void setDrag(bool drag) { m_drag = drag; }
+
 signals:
 	void nameChanged();
 public slots:
@@ -96,10 +105,12 @@ private:
 	bool m_directAccess;
 	bool m_indexedAccess;
 	bool m_editable;
+	bool m_drag;
 	bool m_translate;
 	bool m_debug;
 	bool m_dataStream;
-
+	bool m_loadBin;
+	bool m_loadConf;
 };
 
 #endif // DATASTRUCTMODEL_H

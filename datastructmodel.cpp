@@ -6,30 +6,31 @@
 
 #include "datastructmodel.h"
 
-QVector<TypePair> DataStructModel::m_types( {
-						    TypePair("bool", "toBool"),
-						    TypePair("char", "toChar"),
-						    TypePair("int", "toInt"),
-						    TypePair("qint8", "toInt"),
-						    TypePair("qint16", "toInt"),
-						    TypePair("qint32", "toInt"),
-						    TypePair("quint8", "toUInt"),
-						    TypePair("quint16", "toUInt"),
-						    TypePair("quint32", "toUInt"),
-						    TypePair("QString", "toString"),
-						    TypePair("QStringList", "toStringList"),
-						    TypePair("QDate", "toDate"),
-						    TypePair("QTime", "toTime"),
-						    TypePair("QDateTime", "toDateTime"),
-						    TypePair("QLine", "toLine"),
-						    TypePair("QLineF", "toLineF"),
-						    TypePair("QPoint", "toPoint"),
-						    TypePair("QPointF", "toPointF"),
-						    TypePair("QRect", "toRect"),
-						    TypePair("QRectF", "toRectF"),
-						    TypePair("QSize", "toSize"),
-						    TypePair("QSizeF", "toSizeF")
-					    } );
+QVector<TypePair> DataStructModel::m_types(
+{
+	TypePair("bool", "toBool"),
+	TypePair("char", "toChar"),
+	TypePair("int", "toInt"),
+	TypePair("qint8", "toInt"),
+	TypePair("qint16", "toInt"),
+	TypePair("qint32", "toInt"),
+	TypePair("quint8", "toUInt"),
+	TypePair("quint16", "toUInt"),
+	TypePair("quint32", "toUInt"),
+	TypePair("QString", "toString"),
+	TypePair("QStringList", "toStringList"),
+	TypePair("QDate", "toDate"),
+	TypePair("QTime", "toTime"),
+	TypePair("QDateTime", "toDateTime"),
+	TypePair("QLine", "toLine"),
+	TypePair("QLineF", "toLineF"),
+	TypePair("QPoint", "toPoint"),
+	TypePair("QPointF", "toPointF"),
+	TypePair("QRect", "toRect"),
+	TypePair("QRectF", "toRectF"),
+	TypePair("QSize", "toSize"),
+	TypePair("QSizeF", "toSizeF")
+} );
 
 void DataStructModel::addType(QString type, QString convert)
 {
@@ -47,13 +48,14 @@ void DataStructModel::addType(QString type, QString convert)
 DataStructModel::DataStructModel(QObject *parent)
 	: QAbstractTableModel(parent)
 	, m_header( { "Type", "Convert", "Name", "Column-Id" })
-	, m_tooltip ( {
-	 "Type name for this member",
-	  "Function to convert QVariant to this member",
-	  "Member name",
-	  "Column-Id used for this member"
-			} )
-	, m_stdRoles( { Qt::DisplayRole, Qt::EditRole })
+, m_tooltip (
+{
+	"Type name for this member",
+	"Function to convert QVariant to this member",
+	"Member name",
+	"Column-Id used for this member"
+} )
+, m_stdRoles( { Qt::DisplayRole, Qt::EditRole })
 {
 }
 
@@ -150,7 +152,7 @@ QVariant DataStructModel::data(const QModelIndex &index, int role) const
 				return t.m_id;
 			}
 		}
-			break;
+		break;
 		case Qt::ToolTipRole:
 		case Qt::WhatsThisRole:
 			if (index.column() < m_tooltip.count())
@@ -215,9 +217,12 @@ void DataStructModel::save(QSettings &s)
 	s.setValue("directAcess", m_directAccess);
 	s.setValue("indexAccess", m_indexedAccess);
 	s.setValue("editable", m_editable);
+	s.setValue("drag", m_drag);
 	s.setValue("translate", m_translate);
 	s.setValue("debug", m_debug);
 	s.setValue("dataStream", m_dataStream);
+	s.setValue("loadBin", m_loadBin);
+	s.setValue("loadConf", m_loadConf);
 	s.endGroup();
 	emit nameChanged();
 }
@@ -250,9 +255,12 @@ bool DataStructModel::load(QSettings &s)
 	m_directAccess = s.value("directAcess").toBool();
 	m_indexedAccess = s.value("indexAccess").toBool();
 	m_editable = s.value("editable").toBool();
+	m_drag = s.value("drag").toBool();
 	m_translate = s.value("translate").toBool();
 	m_debug = s.value("debug").toBool();
 	m_dataStream = s.value("dataStream").toBool();
+	m_loadBin = s.value("loadBin").toBool();
+	m_loadConf = s.value("loadConf").toBool();
 	s.endGroup();
 //	qDebug() << Q_FUNC_INFO << m_name << m_dataName << m_readOnly << m_insert << m_remove << m_directAccess << m_indexedAccess;
 	emit nameChanged();
@@ -261,9 +269,9 @@ bool DataStructModel::load(QSettings &s)
 
 bool DataStructModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-    row = qBound(0, row, rowCount());
-    DataStruct dummy;
-    beginInsertRows(parent, row, row + count - 1);
+	row = qBound(0, row, rowCount());
+	DataStruct dummy;
+	beginInsertRows(parent, row, row + count - 1);
 	m_data.insert(row, count, dummy);
 	endInsertRows();
 	return true;
