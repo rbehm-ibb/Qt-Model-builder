@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	setWindowTitle(qApp->applicationName() + " " + qApp->applicationVersion());
+	ui->toolBar->removeWhatis();
 //	ToolBarSpacer::addAbout(ui->toolBar, this, SLOT(about()));
 	ui->dataStructView->setModel(m_dataStructModel);
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Type, new DataStructTypeDelegate(this));

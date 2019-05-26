@@ -5,4 +5,8 @@ CVS
 bin
 unused
 Makefile
+.qmake.stash
+*.kate.swap
+*.autosave
+
 

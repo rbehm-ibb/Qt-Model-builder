@@ -4,11 +4,11 @@
 # // ******************************************************
 
 TEMPLATE = app
-include( ./templateQt5/project.pri )
-include( ./templateQt5/lib/utils/stdicons.pri )
-include( ./templateQt5/lib/utils/config.pri )
+include( $$[PRTEMPLATE]/project.pri )
+include( $$[PRTEMPLATE]/lib/utils/stdicons.pri )
 include( $$[PRTEMPLATE]/lib/utils/ibtoolbar.pri )
-include( ./templateQt5/lib/utils/ibb-logo.pri )
+include( $$[PRTEMPLATE]/lib/utils/ibb-logo.pri )
+include( $$[PRTEMPLATE]/lib/utils/config.pri )
 
 QT += core gui widgets
 
