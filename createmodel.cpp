@@ -286,6 +286,7 @@ void DataStructModel::createSource()
 	}
 	if (m_loadConf)
 	{
+		// saveConf
 		sc << endl
 		   << "void " << m_name << "::saveConf(QSettings *setting) const" << endl
 		   << "{" << endl
@@ -294,14 +295,67 @@ void DataStructModel::createSource()
 		   << "\tfor (int row = 0; row < rowCount(); ++row)" << endl
 		   << "\t{" << endl
 		   << "\t\tsetting->setArrayIndex(row);" << endl
-		   << "\t\tfor (int col = 0; col < columnCount(); ++col)" << endl
-		   << "\t\t{" << endl
-		   << "\t\t\tsetting->setValue(m_header[col], data(index(row, col), Qt::DisplayRole));" << endl
-		   << "\t\t}" << endl
+		      ;
+		for (int col = 0; col < m_data.count(); ++col)
+		{
+			const DataStruct &ds = m_data[col];
+			sc << "\t\tsetting->setValue(\"" << ds.m_id << "\", m_data[row]." << ds.m_name << ");" << endl;
+		}
+		sc
 		   << "\t}" << endl
 		   << "\tsetting->endArray();" << endl
 		   << "\tsetting->endGroup();" << endl
 		   << "}" << endl
 			;
+		// loadConf
+		sc << endl
+		   << "void " << m_name << "::loadConf(QSettings *setting)" << endl
+		   << "{" << endl
+		   << "\tbeginResetModel();" << endl
+		   << "\tsetting->beginGroup(\"" << m_name << "\");" << endl
+		   << "\tint n = setting->beginReadArray(\"data\");" << endl
+		   << "\tm_data.clear();" << endl
+		   << "\tfor (int i = 0; i < n; ++i)" << endl
+		   << "\t{" << endl
+		   << "\t\t" << m_dataName << " d;" << endl
+		   << "\t\tsetting->setArrayIndex(i);" << endl
+		      ;
+		for (int col = 0; col < m_data.count(); ++col)
+		{
+			const DataStruct &ds = m_data[col];
+			sc << "\t\td." << ds.m_name << " = " << "setting->value(\"" << ds.m_id << "\")." << ds.m_convert << "();" << endl;
+		}
+		sc << "\t\tm_data.append(d);" << endl
+		   << "\t}" << endl
+		   << "\tsetting->endArray();" << endl
+		   << "\tsetting->endGroup();" << endl
+		   << "\tendResetModel();" << endl
+		   << "}" << endl
+		     ;
+	}
+	if (m_loadBin)
+	{
+		// saveBin
+		sc << endl
+		   << "void " << m_name << "::saveBin(QString filename) const" << endl
+		   << "{" << endl
+		   << "\tQFile f(filename);" << endl
+		   << "\tif (f.open(QIODevice::WriteOnly | QIODevice::Truncate))" << endl
+		   << "\t{" << endl
+		   << "\t\tQDataStream ds(&f);" << endl
+		   << "\t\tds << m_data;" << endl
+		   << "\t}" << endl
+		   << "}" << endl
+		      ;
+
+		// loadBin
+		sc << "\nvoid " << m_name << "::loadBin(QString filename)\n"
+		      "{\n\tQFile f(filename);\n"
+		      "\tbeginResetModel();\n"
+		      "\tm_data.clear();\n"
+		      "\tif (f.open(QIODevice::ReadOnly))\n"
+		      "\t{\n\t\tQDataStream ds(&f);\n\t\tds >> m_data;\n\t}\n"
+		      "\tendResetModel();\n}" << endl
+		      ;
 	}
 }

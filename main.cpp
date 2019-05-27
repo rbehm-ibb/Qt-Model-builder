@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
 		parser.addVersionOption();
 		parser.addPositionalArgument("model", "model-file");
 		parser.process(app);
-		qDebug() << parser.positionalArguments();
+//		qDebug() << parser.positionalArguments();
 		if (! parser.positionalArguments().isEmpty())
 		{
 			modelFile = parser.positionalArguments().first();
