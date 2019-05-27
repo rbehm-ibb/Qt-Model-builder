@@ -1,0 +1,12 @@
+*~
+CVS
+*.pro.user
+.build
+bin
+unused
+Makefile
+.qmake.stash
+*.kate.swap
+*.autosave
+
+

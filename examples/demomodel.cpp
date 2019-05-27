@@ -1,13 +1,13 @@
 // *************************************
-// * Created by model-builder, V1.2
-// * Wed Dec 20 18:27:50 2017 by behm
+// * Created by model-builder, V1.9
+// * Mon May 27 14:06:26 2019 by behm
 // *************************************
 
 #include "demomodel.h"
 
 DemoModel::DemoModel(QObject *parent)
 	: QAbstractTableModel(parent)
-	, m_header( { "Blabla", "Date", "List", "Type" })
+	, m_header( { tr("Blabla"), tr("Date"), tr("List"), tr("Type") })
 	, m_stdRoles( { Qt::DisplayRole, Qt::EditRole })
 {
 }
@@ -23,7 +23,7 @@ void DemoModel::clear()
 	endResetModel();
 }
 
-void DemoModel::setData(const QVector<DataStruct> &d)
+void DemoModel::setData(const DataStructVector &d)
 {
 	beginResetModel();
 	m_data = d;
@@ -137,6 +137,7 @@ bool DemoModel::insertRows(int row, int count, const QModelIndex &parent)
 	row = qBound(0, row, rowCount());
 	DataStruct dummy;
 	beginInsertRows(parent, row, row + count - 1);
+	m_data.insert(row, dummy);
 	endInsertRows();
 	return true;
 }
@@ -149,5 +150,97 @@ bool DemoModel::removeRows(int row, int count, const QModelIndex &parent)
 	{
 		m_data.removeAt(row);
 	}
+	endRemoveRows();
 	return true;
+}
+
+QDebug operator<<(QDebug dbg, const DataStruct &d)
+{	return dbg
+		<< " DataStruct["
+		<< d.blabla << ','
+		<< d.date << ','
+		<< d.list << ','
+		<< d.type
+		<< "]";
+}
+
+
+QDataStream & operator<<(QDataStream &s, const DataStruct &d)
+{	return s
+		<< d.blabla
+		<< d.date
+		<< d.list
+		<< d.type
+		;
+}
+
+
+QDataStream & operator>>(QDataStream &s, DataStruct &d)
+{
+	return s
+		>> d.blabla
+		>> d.date
+		>> d.list
+		>> d.type
+		;
+}
+
+void DemoModel::saveConf(QSettings *setting) const
+{
+	setting->beginGroup("DemoModel");
+	setting->beginWriteArray("data", rowCount());
+	for (int row = 0; row < rowCount(); ++row)
+	{
+		setting->setArrayIndex(row);
+		setting->setValue("Blabla", m_data[row].blabla);
+		setting->setValue("Date", m_data[row].date);
+		setting->setValue("List", m_data[row].list);
+		setting->setValue("Type", m_data[row].type);
+	}
+	setting->endArray();
+	setting->endGroup();
+}
+
+void DemoModel::loadConf(QSettings *setting)
+{
+	beginResetModel();
+	setting->beginGroup("DemoModel");
+	int n = setting->beginReadArray("data");
+	m_data.clear();
+	for (int i = 0; i < n; ++i)
+	{
+		DataStruct d;
+		setting->setArrayIndex(i);
+		d.blabla = setting->value("Blabla").toStringList();
+		d.date = setting->value("Date").toDate();
+		d.list = setting->value("List").toStringList();
+		d.type = setting->value("Type").toString();
+		m_data.append(d);
+	}
+	setting->endArray();
+	setting->endGroup();
+	endResetModel();
+}
+
+void DemoModel::saveBin(QString filename) const
+{
+	QFile f(filename);
+	if (f.open(QIODevice::WriteOnly | QIODevice::Truncate))
+	{
+		QDataStream ds(&f);
+		ds << m_data;
+	}
+}
+
+void DemoModel::loadBin(QString filename)
+{
+	QFile f(filename);
+	beginResetModel();
+	m_data.clear();
+	if (f.open(QIODevice::ReadOnly))
+	{
+		QDataStream ds(&f);
+		ds >> m_data;
+	}
+	endResetModel();
 }

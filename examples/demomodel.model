@@ -19,10 +19,16 @@ member\size=4
 name=DataStruct
 
 [model]
+dataStream=true
+debug=true
 directAcess=true
+drag=true
 editable=true
 indexAccess=true
 insert=true
+loadBin=true
+loadConf=true
 name=DemoModel
 readOnly=false
 remove=true
+translate=true
