@@ -299,7 +299,7 @@ void DataStructModel::createSource()
 		for (int col = 0; col < m_data.count(); ++col)
 		{
 			const DataStruct &ds = m_data[col];
-			sc << "\t\tsetting->setValue(\"" << ds.m_id << "\", m_data[row]." << ds.m_name << ");" << endl;
+			sc << "\t\tsetting->setValue(\"" << ds.m_name << "\", m_data[row]." << ds.m_name << ");" << endl;
 		}
 		sc
 		   << "\t}" << endl
@@ -323,7 +323,7 @@ void DataStructModel::createSource()
 		for (int col = 0; col < m_data.count(); ++col)
 		{
 			const DataStruct &ds = m_data[col];
-			sc << "\t\td." << ds.m_name << " = " << "setting->value(\"" << ds.m_id << "\")." << ds.m_convert << "();" << endl;
+			sc << "\t\td." << ds.m_name << " = " << "setting->value(\"" << ds.m_name << "\")." << ds.m_convert << "();" << endl;
 		}
 		sc << "\t\tm_data.append(d);" << endl
 		   << "\t}" << endl
