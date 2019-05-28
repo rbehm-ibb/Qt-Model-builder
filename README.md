@@ -1,5 +1,5 @@
 # Qt-Model-builder
-## V1.7
+## V1.9
 
 <img src="logo.png">
 
