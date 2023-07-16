@@ -1,6 +1,6 @@
 // *************************************
 // * Created by model-builder, V1.9
-// * Mon May 27 14:06:26 2019 by behm
+// * Mon May 27 20:44:23 2019 by behm
 // *************************************
 
 #include "demomodel.h"
@@ -192,10 +192,10 @@ void DemoModel::saveConf(QSettings *setting) const
 	for (int row = 0; row < rowCount(); ++row)
 	{
 		setting->setArrayIndex(row);
-		setting->setValue("Blabla", m_data[row].blabla);
-		setting->setValue("Date", m_data[row].date);
-		setting->setValue("List", m_data[row].list);
-		setting->setValue("Type", m_data[row].type);
+		setting->setValue("blabla", m_data[row].blabla);
+		setting->setValue("date", m_data[row].date);
+		setting->setValue("list", m_data[row].list);
+		setting->setValue("type", m_data[row].type);
 	}
 	setting->endArray();
 	setting->endGroup();
@@ -211,10 +211,10 @@ void DemoModel::loadConf(QSettings *setting)
 	{
 		DataStruct d;
 		setting->setArrayIndex(i);
-		d.blabla = setting->value("Blabla").toStringList();
-		d.date = setting->value("Date").toDate();
-		d.list = setting->value("List").toStringList();
-		d.type = setting->value("Type").toString();
+		d.blabla = setting->value("blabla").toStringList();
+		d.date = setting->value("date").toDate();
+		d.list = setting->value("list").toStringList();
+		d.type = setting->value("type").toString();
 		m_data.append(d);
 	}
 	setting->endArray();
