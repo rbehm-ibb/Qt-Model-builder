@@ -34,7 +34,7 @@ void IBToolBar::removeWhatis()
 	if (m_what)
 	{
 		delete m_what;
-		m_what = 0;
+		m_what = nullptr;
 	}
 	m_noWhat = true;
 }
@@ -57,12 +57,12 @@ void IBToolBar::addAbout()
 	QWidget *tbs = new QWidget;
 	tbs->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
 	addWidget(tbs);
-	if (! m_noWhat)
-	{
-		m_what = QWhatsThis::createAction(this);
-		addAction(m_what);
-		m_what->setStatusTip(tr("Whats this?"));
-	}
+//	if (! m_noWhat)
+//	{
+//		m_what = QWhatsThis::createAction(this);
+//		addAction(m_what);
+//		m_what->setStatusTip(tr("Whats this?"));
+//	}
 	m_about = addAction(QIcon(":/toolbarspacer/info.svgz"), tr("&About"));
 //	m_about = addAction(QIcon(":/qt-project.org/styles/commonstyle/images/fileinfo-32.png"), tr("&About"));
 	m_about->setToolTip(tr("Information about this program"));
@@ -82,7 +82,7 @@ void IBToolBar::addQuit()
 	if (mw)
 	{
 		m_quit = addAction(QIcon(":/toolbarspacer/exit.svgz"), tr("Exit"), mw, SLOT(quit()));
-		m_quit->setShortcut(QKeySequence::Quit);
+		m_quit->setShortcut(QKeySequence("Ctrl+Q") /*::Quit*/);
 		m_quit->setObjectName("Quit-Action");
 		m_quit->setToolTip(m_quit->shortcut().toString() + " " + tr("Leave this program"));
 		m_quit->setWhatsThis(tr("Leave this program") + "\n" + m_quit->shortcut().toString());
@@ -104,20 +104,23 @@ void IBToolBar::aboutSlot()
 		copyIcon =  "<img height=20 src=\"" + copyr.toString() + "\">";
 	}
 	QString text("<h1>%1</h1>"
-		     "<p>Version %2"
-		     "<p>&copy; %3, %7 %4"
-		     "<p>Web: <a href=\"http://%5\">http://%5</a>"
-		     "<p>Mail: <a href=\"mailto:info@%5\">info@%5</a>"
-		     "<p>Using  <a href=\"http://qt.io\"><img src=\":/stdicons/qt-logo-about.png\"> %6</a>"
+		     "<h2>%3</h2>"
+		     "<h3>Version %2</h3>"
+		     "<p>&copy; %4, %5 %6"
+		     "<p>Web: <a href=\"http://%6\">http://%6</a>"
+		     "<p>Mail: <a href=\"mailto:info@%5\">info@%6</a>"
+		     "<p>Using  <a href=\"http://qt.io\"><img src=\":/stdicons/qt-logo-about.png\"> %9 on %8</a>"
 		    );
 	text = text
 	       .arg(qApp->applicationName())
 	       .arg(qApp->applicationVersion())
+	       .arg(qApp->applicationDisplayName())
+	       .arg(copyIcon)
 	       .arg(QString(__DATE__).section(' ', -1, -1))
 	       .arg(qApp->organizationName())
 	       .arg(qApp->organizationDomain())
 	       .arg(qVersion())
-	       .arg(copyIcon)
+	       .arg(QSysInfo::buildCpuArchitecture() + " / " + QSysInfo::prettyProductName())
 	       ;
 	QMessageBox::about(parentWidget(), qApp->applicationName(), text);
 }

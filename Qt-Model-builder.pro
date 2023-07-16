@@ -35,5 +35,6 @@ RESOURCES += \
     logo.qrc
 
 DISTFILES += \
+    .gitignore \
     README.md \
     LICENSE

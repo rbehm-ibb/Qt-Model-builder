@@ -10,9 +10,9 @@ int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 	app.setApplicationName("model-builder");
-	app.setApplicationVersion("V1.9");
+	app.setApplicationVersion("V1.10");
 	app.setOrganizationDomain("ibb-aviotec.com");
-	app.setOrganizationName("IBB-aviotec");
+	app.setOrganizationName("IBB-aviotec.com");
 	QString modelFile;
 	{
 		const QString logo(":/logo/ibb-logo");

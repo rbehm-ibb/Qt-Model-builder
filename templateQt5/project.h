@@ -6,16 +6,24 @@
 #ifndef PROJECT_H
 #define PROJECT_H
 
+#include <cstdint>
 #include <unistd.h>
 #include <math.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <assert.h>
 #ifdef __cplusplus
 #include <iostream>
 using namespace std;
 #endif
 
+
+#if QT_VERSION >= 0x051502
+//namespace Qt {
+//	const char endl = '\n';
+//}
+#endif
 
 #ifdef QT_CORE_LIB
 #include <QtCore>
@@ -93,6 +101,22 @@ using namespace std;
 #include <QtMultimedia>
 #endif
 
+#ifdef QT_WEBKITWIDGETS_LIB
+#include <QWebView>
+#endif
+
+#ifdef QT_WEBENGINECORE_LIB
+#endif
+
+#ifdef QT_WEBENGINE_LIB
+#include <QtWebEngine>
+#endif
+
+#ifdef QT_WEBENGINEWIDGETS_LIB
+#include <QWebEngineView>
+#include <QWebEngineHistory>
+#endif
+
 #ifdef QT_X11EXTRAS_LIB
 #include <QtX11Extras>
 #endif
@@ -105,10 +129,37 @@ using namespace std;
 #include <QtBluetooth>
 #endif
 
+#ifdef QT_TEXTTOSPEECH_LIB
+#include <QTextToSpeech>
+#endif
+
+#ifdef QT_3DCORE_LIB
+#include <Qt3DCore>
+#endif
+
+#ifdef QT_3DRENDERER_LIB
+#include <Qt3DRenderer>
+#endif
+
+#ifdef QT_3DINPUT_LIB
+#include <Qt3DInput>
+#endif
+
+#ifdef QT_REMOTEOBJECTS_LIB
+#include <QtRemoteObjects>
+#endif
+
 #ifdef QCUSTOM_PLOT
 #include "qcustomplot.h"
 #endif
 
+#ifdef HAS_OSMWIDGET
+#include "osmwidget.h"
+#include "osmview.h"
+#include "osmscene.h"
+#include "osmtile.h"
+#include "mapscalewidget.h"
+#endif
 
 #define dimof(x) (sizeof(x)/sizeof(x[0]))
 

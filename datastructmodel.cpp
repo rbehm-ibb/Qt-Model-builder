@@ -214,6 +214,7 @@ void DataStructModel::save(QSettings &s)
 	s.setValue("readOnly", m_readOnly);
 	s.setValue("insert", m_insert);
 	s.setValue("remove", m_remove);
+	s.setValue("addRows", m_addRow);
 	s.setValue("directAcess", m_directAccess);
 	s.setValue("indexAccess", m_indexedAccess);
 	s.setValue("editable", m_editable);
@@ -252,6 +253,7 @@ bool DataStructModel::load(QSettings &s)
 	m_readOnly = s.value("readOnly").toBool();
 	m_insert = s.value("insert").toBool();
 	m_remove = s.value("remove").toBool();
+	m_addRow = s.value("addRows").toBool();
 	m_directAccess = s.value("directAcess").toBool();
 	m_indexedAccess = s.value("indexAccess").toBool();
 	m_editable = s.value("editable").toBool();

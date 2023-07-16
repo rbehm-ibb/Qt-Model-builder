@@ -87,6 +87,9 @@ public:
 	bool drag() const { return m_drag; }
 	void setDrag(bool drag) { m_drag = drag; }
 
+	bool addRow() const { return m_addRow; }
+	void setAddRow(bool newAddRow) { m_addRow = newAddRow;  }
+
 signals:
 	void nameChanged();
 public slots:
@@ -111,6 +114,7 @@ private:
 	bool m_dataStream;
 	bool m_loadBin;
 	bool m_loadConf;
+	bool m_addRow;
 };
 
 #endif // DATASTRUCTMODEL_H

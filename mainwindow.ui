@@ -102,7 +102,7 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
+       <item row="5" column="0">
         <widget class="QLabel" name="label_6">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;create a method to access the internal data set.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -112,14 +112,14 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
+       <item row="5" column="1">
         <widget class="QCheckBox" name="cbDirectAcess">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="5" column="0">
+       <item row="6" column="0">
         <widget class="QLabel" name="label_7">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;create method to access the internal data by index.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -129,14 +129,14 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="6" column="1">
         <widget class="QCheckBox" name="cbIndexAccess">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
+       <item row="7" column="0">
         <widget class="QLabel" name="label_2">
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Make the data feilds editable (flags).&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -146,92 +146,106 @@
          </property>
         </widget>
        </item>
-       <item row="6" column="1">
+       <item row="7" column="1">
         <widget class="QCheckBox" name="cbEditable">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
+       <item row="8" column="0">
         <widget class="QLabel" name="label_16">
          <property name="text">
           <string>Drag Enabled</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="1">
+       <item row="8" column="1">
         <widget class="QCheckBox" name="cbDrag">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <widget class="QLabel" name="label_9">
          <property name="text">
           <string>Translate</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="1">
+       <item row="9" column="1">
         <widget class="QCheckBox" name="cbTranslate">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
+       <item row="10" column="0">
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>QDebug &lt;&lt;</string>
          </property>
         </widget>
        </item>
-       <item row="9" column="1">
+       <item row="10" column="1">
         <widget class="QCheckBox" name="cbDebug">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="10" column="0">
+       <item row="11" column="0">
         <widget class="QLabel" name="label_10">
          <property name="text">
           <string>QDataStream &lt;&lt;/&gt;&gt;</string>
          </property>
         </widget>
        </item>
-       <item row="10" column="1">
+       <item row="11" column="1">
         <widget class="QCheckBox" name="cbDataStream">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
+       <item row="12" column="0">
         <widget class="QLabel" name="label_12">
          <property name="text">
           <string>Load/Save-binary</string>
          </property>
         </widget>
        </item>
-       <item row="11" column="1">
+       <item row="12" column="1">
         <widget class="QCheckBox" name="cbSaveBin">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="12" column="0">
+       <item row="13" column="0">
         <widget class="QLabel" name="label_14">
          <property name="text">
           <string>Load/Save Config</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="1">
+       <item row="13" column="1">
         <widget class="QCheckBox" name="cbSaveConf">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>addRow</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="cbAddRow">
          <property name="text">
           <string/>
          </property>
@@ -334,7 +348,7 @@
   </widget>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="../qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/fileopen</normaloff>:/fileopen</iconset>
    </property>
    <property name="text">
@@ -349,7 +363,7 @@
   </action>
   <action name="actionSave">
    <property name="icon">
-    <iconset resource="../qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/doc-save</normaloff>:/doc-save</iconset>
    </property>
    <property name="text">
@@ -364,7 +378,7 @@
   </action>
   <action name="actionSaveAs">
    <property name="icon">
-    <iconset resource="../qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/doc-save-as</normaloff>:/doc-save-as</iconset>
    </property>
    <property name="text">
@@ -376,7 +390,7 @@
   </action>
   <action name="actionCreateModel">
    <property name="icon">
-    <iconset resource="../qt-library/lib/utils/stdicons.qrc">
+    <iconset resource="../../../Qt/qt-library/lib/utils/stdicons.qrc">
      <normaloff>:/wizard</normaloff>:/wizard</iconset>
    </property>
    <property name="text">
@@ -401,7 +415,7 @@
  </customwidgets>
  <resources>
   <include location="logo.qrc"/>
-  <include location="../qt-library/lib/utils/stdicons.qrc"/>
+  <include location="../../../Qt/qt-library/lib/utils/stdicons.qrc"/>
  </resources>
  <connections/>
 </ui>

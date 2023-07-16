@@ -38,26 +38,26 @@ void DataStructModel::createSource()
 		      .arg(Config::sysUser());
 	sh
 			<< entryBlabla
-			<< "#ifndef " << ifs << endl
-			<< "#define " << ifs << endl
-			<< endl;
+			<< "#ifndef " << ifs << Qt::endl
+			<< "#define " << ifs << Qt::endl
+			<< Qt::endl;
 
-	sh << "struct " << m_dataName << endl << "{" << endl;
-	sh << "\t" << m_dataName << "() {}" << endl;
+	sh << "struct " << m_dataName << Qt::endl << "{" << Qt::endl;
+	sh << "\t" << m_dataName << "() {}" << Qt::endl;
 	if (m_debug)
 	{
-		sh << "\tfriend QDebug operator<<(QDebug dbg, const " << m_dataName << " &d);" << endl;
+		sh << "\tfriend QDebug operator<<(QDebug dbg, const " << m_dataName << " &d);" << Qt::endl;
 	}
 	if (m_dataStream || m_loadBin)
 	{
-		sh << "\tfriend QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d);" << endl;
-		sh << "\tfriend QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d);" << endl;
+		sh << "\tfriend QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d);" << Qt::endl;
+		sh << "\tfriend QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d);" << Qt::endl;
 	}
 	QStringList idl;
 	QStringList idls;
 	foreach (const DataStruct &d, m_data)
 	{
-		sh << "\t" << d.m_type << " " << d.m_name << ";" << endl;
+		sh << "\t" << d.m_type << " " << d.m_name << ";" << Qt::endl;
 		idl << d.m_id;
 		if (translate())
 		{
@@ -69,35 +69,35 @@ void DataStructModel::createSource()
 		}
 	}
 	idl << "NCols";
-	sh << "};" << endl
-	   << "typedef QVector<" << m_dataName << "> " << vecName << ";" << endl
-	   << "Q_DECLARE_METATYPE(" << m_dataName << ")" << endl << endl
-	   << "class " << m_name << " : public QAbstractTableModel" << endl
-	   << "{" << endl
-	   << "\tQ_OBJECT" << endl
-	   << "public:" << endl
-	   << "\tenum Colums { " << idl.join(", ") << " };" << endl
-	   << "\tQ_ENUMS(Colums)" << endl
-	   << "\texplicit " << m_name << "(QObject *parent = nullptr);" << endl
-	   << "\t~" << m_name << "();" << endl
+	sh << "};" << Qt::endl
+	   << "typedef QVector<" << m_dataName << "> " << vecName << ";" << Qt::endl
+	   << "Q_DECLARE_METATYPE(" << m_dataName << ")" << Qt::endl << Qt::endl
+	   << "class " << m_name << " : public QAbstractTableModel" << Qt::endl
+	   << "{" << Qt::endl
+	   << "\tQ_OBJECT" << Qt::endl
+	   << "public:" << Qt::endl
+	   << "\tenum Colums { " << idl.join(", ") << " };" << Qt::endl
+	   << "\tQ_ENUMS(Colums)" << Qt::endl
+	   << "\texplicit " << m_name << "(QObject *parent = nullptr);" << Qt::endl
+	   << "\t~" << m_name << "();" << Qt::endl
 	   ;
 	if (m_loadBin)
 	{
-		sh << "\tvoid saveBin(QString filename) const;" << endl
-		   << "\tvoid loadBin(QString filename);" << endl
+		sh << "\tvoid saveBin(QString filename) const;" << Qt::endl
+		   << "\tvoid loadBin(QString filename);" << Qt::endl
 			;
 	}
 	if (m_loadConf)
 	{
-		sh << "\tvoid saveConf(QSettings *setting) const;" << endl
-		   << "\tvoid loadConf(QSettings *setting);" << endl
+		sh << "\tvoid saveConf(QSettings *setting) const;" << Qt::endl
+		   << "\tvoid loadConf(QSettings *setting);" << Qt::endl
 			;
 	}
-	sh << "\tvirtual int rowCount(const QModelIndex & = QModelIndex()) const { return m_data.count(); }" << endl
-	   << "\tvirtual int columnCount(const QModelIndex & = QModelIndex()) const { return NCols; }" << endl
-	   << "\tvirtual bool hasChildren(const QModelIndex & = QModelIndex()) const { return false; }" << endl
-	   << "\tvirtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;" << endl
-	   << "\tvirtual QVariant data(const QModelIndex &index, int role) const;" << endl
+	sh << "\tvirtual int rowCount(const QModelIndex & = QModelIndex()) const { return m_data.count(); }" << Qt::endl
+	   << "\tvirtual int columnCount(const QModelIndex & = QModelIndex()) const { return NCols; }" << Qt::endl
+	   << "\tvirtual bool hasChildren(const QModelIndex & = QModelIndex()) const { return false; }" << Qt::endl
+	   << "\tvirtual QVariant headerData(int section, Qt::Orientation orientation, int role) const;" << Qt::endl
+	   << "\tvirtual QVariant data(const QModelIndex &index, int role) const;" << Qt::endl
 	   ;
 	QStringList flags( { "Qt::ItemIsEnabled", "Qt::ItemIsSelectable", "Qt::ItemNeverHasChildren" });
 	if (m_editable)
@@ -109,45 +109,49 @@ void DataStructModel::createSource()
 		flags << "Qt::ItemIsDragEnabled";
 	}
 	sh
-			<< "\tvirtual Qt::ItemFlags flags(const QModelIndex & = QModelIndex()) const { return " << flags.join(" | ") << "; }" << endl
+			<< "\tvirtual Qt::ItemFlags flags(const QModelIndex & = QModelIndex()) const { return " << flags.join(" | ") << "; }" << Qt::endl
 			;
 	if (! m_readOnly)
 	{
-		sh << "\tvirtual bool setData(const QModelIndex &index, const QVariant &value, int role);" << endl
-		   << "\tvoid clear();" << endl
+		sh << "\tvirtual bool setData(const QModelIndex &index, const QVariant &value, int role);" << Qt::endl
+		   << "\tvoid clear();" << Qt::endl
 		   ;
 	}
 	if (m_insert)
 	{
-		sh << "\tvirtual bool insertRows(int row, int count, const QModelIndex &parent);" << endl;
+		sh << "\tvirtual bool insertRows(int row, int count, const QModelIndex &parent);" << Qt::endl;
 	}
 	if (m_remove)
 	{
-		sh << "\tvirtual bool removeRows(int row, int count, const QModelIndex &parent);" << endl;
+		sh << "\tvirtual bool removeRows(int row, int count, const QModelIndex &parent);" << Qt::endl;
 	}
 	if (m_directAccess)
 	{
-		sh << "\tconst " << vecName << " & data() const { return m_data; }" << endl;
+		sh << "\tconst " << vecName << " & data() const { return m_data; }" << Qt::endl;
 		if (! m_readOnly)
 		{
-			sh << "\tvoid setData(const " << vecName << " &d);" << endl;
+			sh << "\tvoid setData(const " << vecName << " &d);" << Qt::endl;
 		}
 	}
 	if (m_indexedAccess)
 	{
-		sh << "\tconst " << m_dataName << " & data(int row) const { return m_data.at(row); }" << endl;
+		sh << "\tconst " << m_dataName << " & data(int row) const { return m_data.at(row); }" << Qt::endl;
 	}
-	sh << "private:" << endl
-	   << "\tconst QStringList m_header;" << endl
-	   << "\tconst QVector<int> m_stdRoles;" << endl
-	   << "\t" << vecName << " m_data;" << endl
+	if (m_addRow)
+	{
+		sh << "\tint addRow();" << Qt::endl;
+	}
+	sh << "private:" << Qt::endl
+	   << "\tconst QStringList m_header;" << Qt::endl
+	   << "\tconst QVector<int> m_stdRoles;" << Qt::endl
+	   << "\t" << vecName << " m_data;" << Qt::endl
 	   ;
-	sh << "};" << endl << endl << "#endif // " << ifs << endl;
+	sh << "};" << Qt::endl << Qt::endl << "#endif // " << ifs << Qt::endl;
 
 	// ------------- cpp top
 	sc
 			<< entryBlabla
-			<< "#include \"" << name << ".h\"" << endl << endl;
+			<< "#include \"" << name << ".h\"" << Qt::endl << Qt::endl;
 	// _ct_, _dt_
 	QString s("%1::%1(QObject *parent)\n"
 		  "\t: QAbstractTableModel(parent)\n"
@@ -160,13 +164,13 @@ void DataStructModel::createSource()
 	if (! m_readOnly)
 	{
 		// clear(), setData(QVector<>)
-		sc << endl << QString("void %1::clear()\n{\n\tbeginResetModel();\n\tm_data.clear();\n\tendResetModel();\n}").arg(m_name) << endl;
+		sc << Qt::endl << QString("void %1::clear()\n{\n\tbeginResetModel();\n\tm_data.clear();\n\tendResetModel();\n}").arg(m_name) << Qt::endl;
 		if (m_directAccess)
 		{
 			sc << QString("\nvoid %1::setData(const %2 &d)\n"
 				      "{\n\tbeginResetModel();\n\tm_data = d;\n\tendResetModel();\n}"
 				     ).arg(m_name).arg(vecName)
-			   << endl;
+			   << Qt::endl;
 		}
 		// setData(..)
 		QString s("\nbool %1::setData(const QModelIndex &index, const QVariant &value, int role)\n"
@@ -187,19 +191,19 @@ void DataStructModel::createSource()
 				      "\t\t\t\t\temit dataChanged(index, index, m_stdRoles);\n"
 				      "\t\t\t\t}\n\t\t\t\treturn true;\n\t\t\t}"
 				     ).arg(d.m_name).arg(d.m_type).arg(d.m_convert).arg(d.m_id)
-			   << endl;
+			   << Qt::endl;
 		}
-		sc << "\t\t\t}\n\t\t}\n\t}\n\treturn false;\n}" << endl;
+		sc << "\t\t\t}\n\t\t}\n\t}\n\treturn false;\n}" << Qt::endl;
 	}
 	// headerData
-	sc << endl
+	sc << Qt::endl
 	   << QString("QVariant %1::headerData(int section, Qt::Orientation orientation, int role) const\n"
 		      "{\n\tif (role == Qt::DisplayRole)\n"
 		      "\t{\n\t\tif (orientation == Qt::Horizontal)\n"
 		      "\t\t{\n\t\t\tif (section <= columnCount())\n\t\t\t{\n\t\t\t\treturn m_header[section];\n\t\t\t}\n"
 		      "\t\t}\n"
 		      "\t\telse if (orientation == Qt::Vertical)\n\t\t{\n\t\t\treturn section;\n\t\t}\n\t}\n\treturn QVariant();\n}").arg(m_name)
-	   << endl;
+	   << Qt::endl;
 	// data(..)
 	sc << QString("\nQVariant %1::data(const QModelIndex &index, int role) const\n"
 		      "{\n\tif (index.isValid() && index.row() < m_data.count())\n"
@@ -213,9 +217,9 @@ void DataStructModel::createSource()
 	foreach (const DataStruct &d, m_data)
 	{
 		sc << QString("\t\t\tcase %1:\n\t\t\t\treturn t.%2;").arg(d.m_id).arg(d.m_name)
-		   << endl;
+		   << Qt::endl;
 	}
-	sc << "\t\t\t}\n\t\t\tbreak;\n\t\t}\n\t}\n\treturn QVariant();\n}" << endl;
+	sc << "\t\t\t}\n\t\t\tbreak;\n\t\t}\n\t}\n\treturn QVariant();\n}" << Qt::endl;
 
 	if (m_insert)
 	{
@@ -226,7 +230,18 @@ void DataStructModel::createSource()
 			      "\tm_data.insert(row, dummy);\n"
 			      "\tendInsertRows();\n"
 			      "\treturn true;\n}"
-			     ).arg(m_name).arg(m_dataName) << endl;
+			      ).arg(m_name).arg(m_dataName) << Qt::endl;
+	}
+	if (m_addRow)
+	{
+		sc << QString("\nint %1::addRow()\n"
+			      "{\n\tint row = rowCount();\n"
+			      "\t%2 dummy;\n"
+			      "\tbeginInsertRows(QModelIndex(), row, row);\n"
+			      "\tm_data.append(dummy);\n"
+			      "\tendInsertRows();\n"
+			      "\treturn row;\n}"
+			      ).arg(m_name).arg(m_dataName) << Qt::endl;
 	}
 	if (m_remove)
 	{
@@ -238,114 +253,114 @@ void DataStructModel::createSource()
 			      "\t}\n"
 			      "\tendRemoveRows();\n"
 			      "\treturn true;\n}"
-			     ).arg(m_name) << endl;
+			     ).arg(m_name) << Qt::endl;
 	}
 	if (m_debug)
 	{
-		sc << endl
-		   << "QDebug operator<<(QDebug dbg, const " << m_dataName << " &d)" << endl
-		   << "{\treturn dbg" << endl
-		   << "\t\t<< \" " << m_dataName << "[\"" << endl
+		sc << Qt::endl
+		   << "QDebug operator<<(QDebug dbg, const " << m_dataName << " &d)" << Qt::endl
+		   << "{\treturn dbg" << Qt::endl
+		   << "\t\t<< \" " << m_dataName << "[\"" << Qt::endl
 		   ;
 		QStringList sl;
 		foreach (const DataStruct &d, m_data)
 		{
 			sl << "\t\t<< d." + d.m_name;
 		}
-		sc << sl.join(" << ','\n") << endl;
-		sc << "\t\t<< \"]\";" << endl
-		   << "}" << endl << endl
+		sc << sl.join(" << ','\n") << Qt::endl;
+		sc << "\t\t<< \"]\";" << Qt::endl
+		   << "}" << Qt::endl << Qt::endl
 		   ;
 	}
 	if (m_dataStream)
 	{
-		sc 		<< endl
-				<< "QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d)" << endl
-				<< "{\treturn s" << endl
+		sc 		<< Qt::endl
+				<< "QDataStream & operator<<(QDataStream &s, const " << m_dataName << " &d)" << Qt::endl
+				<< "{\treturn s" << Qt::endl
 				;
 		foreach (const DataStruct &d, m_data)
 		{
-			sc << "\t\t<< d." << d.m_name << endl;
+			sc << "\t\t<< d." << d.m_name << Qt::endl;
 		}
-		sc << "\t\t;" << endl
-		   << "}" << endl << endl
+		sc << "\t\t;" << Qt::endl
+		   << "}" << Qt::endl << Qt::endl
 		   ;
 
-		sc << endl
-		   << "QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d)" << endl
-		   << "{" << endl
-		   << "\treturn s" << endl
+		sc << Qt::endl
+		   << "QDataStream & operator>>(QDataStream &s, " << m_dataName << " &d)" << Qt::endl
+		   << "{" << Qt::endl
+		   << "\treturn s" << Qt::endl
 		   ;
 		foreach (const DataStruct &d, m_data)
 		{
-			sc << "\t\t>> d." << d.m_name << endl;
+			sc << "\t\t>> d." << d.m_name << Qt::endl;
 		}
-		sc << "\t\t;" << endl
-		   << "}" << endl
+		sc << "\t\t;" << Qt::endl
+		   << "}" << Qt::endl
 		   ;
 	}
 	if (m_loadConf)
 	{
 		// saveConf
-		sc << endl
-		   << "void " << m_name << "::saveConf(QSettings *setting) const" << endl
-		   << "{" << endl
-		   << "\tsetting->beginGroup(\"" << m_name << "\");" << endl
-		   << "\tsetting->beginWriteArray(\"data\", rowCount());" << endl
-		   << "\tfor (int row = 0; row < rowCount(); ++row)" << endl
-		   << "\t{" << endl
-		   << "\t\tsetting->setArrayIndex(row);" << endl
+		sc << Qt::endl
+		   << "void " << m_name << "::saveConf(QSettings *setting) const" << Qt::endl
+		   << "{" << Qt::endl
+		   << "\tsetting->beginGroup(\"" << m_name << "\");" << Qt::endl
+		   << "\tsetting->beginWriteArray(\"data\", rowCount());" << Qt::endl
+		   << "\tfor (int row = 0; row < rowCount(); ++row)" << Qt::endl
+		   << "\t{" << Qt::endl
+		   << "\t\tsetting->setArrayIndex(row);" << Qt::endl
 		      ;
 		for (int col = 0; col < m_data.count(); ++col)
 		{
 			const DataStruct &ds = m_data[col];
-			sc << "\t\tsetting->setValue(\"" << ds.m_name << "\", m_data[row]." << ds.m_name << ");" << endl;
+			sc << "\t\tsetting->setValue(\"" << ds.m_name << "\", m_data[row]." << ds.m_name << ");" << Qt::endl;
 		}
 		sc
-		   << "\t}" << endl
-		   << "\tsetting->endArray();" << endl
-		   << "\tsetting->endGroup();" << endl
-		   << "}" << endl
+		   << "\t}" << Qt::endl
+		   << "\tsetting->endArray();" << Qt::endl
+		   << "\tsetting->endGroup();" << Qt::endl
+		   << "}" << Qt::endl
 			;
 		// loadConf
-		sc << endl
-		   << "void " << m_name << "::loadConf(QSettings *setting)" << endl
-		   << "{" << endl
-		   << "\tbeginResetModel();" << endl
-		   << "\tsetting->beginGroup(\"" << m_name << "\");" << endl
-		   << "\tint n = setting->beginReadArray(\"data\");" << endl
-		   << "\tm_data.clear();" << endl
-		   << "\tfor (int i = 0; i < n; ++i)" << endl
-		   << "\t{" << endl
-		   << "\t\t" << m_dataName << " d;" << endl
-		   << "\t\tsetting->setArrayIndex(i);" << endl
+		sc << Qt::endl
+		   << "void " << m_name << "::loadConf(QSettings *setting)" << Qt::endl
+		   << "{" << Qt::endl
+		   << "\tbeginResetModel();" << Qt::endl
+		   << "\tsetting->beginGroup(\"" << m_name << "\");" << Qt::endl
+		   << "\tint n = setting->beginReadArray(\"data\");" << Qt::endl
+		   << "\tm_data.clear();" << Qt::endl
+		   << "\tfor (int i = 0; i < n; ++i)" << Qt::endl
+		   << "\t{" << Qt::endl
+		   << "\t\t" << m_dataName << " d;" << Qt::endl
+		   << "\t\tsetting->setArrayIndex(i);" << Qt::endl
 		      ;
 		for (int col = 0; col < m_data.count(); ++col)
 		{
 			const DataStruct &ds = m_data[col];
-			sc << "\t\td." << ds.m_name << " = " << "setting->value(\"" << ds.m_name << "\")." << ds.m_convert << "();" << endl;
+			sc << "\t\td." << ds.m_name << " = " << "setting->value(\"" << ds.m_name << "\")." << ds.m_convert << "();" << Qt::endl;
 		}
-		sc << "\t\tm_data.append(d);" << endl
-		   << "\t}" << endl
-		   << "\tsetting->endArray();" << endl
-		   << "\tsetting->endGroup();" << endl
-		   << "\tendResetModel();" << endl
-		   << "}" << endl
+		sc << "\t\tm_data.append(d);" << Qt::endl
+		   << "\t}" << Qt::endl
+		   << "\tsetting->endArray();" << Qt::endl
+		   << "\tsetting->endGroup();" << Qt::endl
+		   << "\tendResetModel();" << Qt::endl
+		   << "}" << Qt::endl
 		     ;
 	}
 	if (m_loadBin)
 	{
 		// saveBin
-		sc << endl
-		   << "void " << m_name << "::saveBin(QString filename) const" << endl
-		   << "{" << endl
-		   << "\tQFile f(filename);" << endl
-		   << "\tif (f.open(QIODevice::WriteOnly | QIODevice::Truncate))" << endl
-		   << "\t{" << endl
-		   << "\t\tQDataStream ds(&f);" << endl
-		   << "\t\tds << m_data;" << endl
-		   << "\t}" << endl
-		   << "}" << endl
+		sc << Qt::endl
+		   << "void " << m_name << "::saveBin(QString filename) const" << Qt::endl
+		   << "{" << Qt::endl
+		   << "\tQFile f(filename);" << Qt::endl
+		   << "\tif (f.open(QIODevice::WriteOnly | QIODevice::Truncate))" << Qt::endl
+		   << "\t{" << Qt::endl
+		   << "\t\tQDataStream ds(&f);" << Qt::endl
+		   << "\t\tds << m_data;" << Qt::endl
+		   << "\t}" << Qt::endl
+		   << "}" << Qt::endl
 		      ;
 
 		// loadBin
@@ -355,7 +370,7 @@ void DataStructModel::createSource()
 		      "\tm_data.clear();\n"
 		      "\tif (f.open(QIODevice::ReadOnly))\n"
 		      "\t{\n\t\tQDataStream ds(&f);\n\t\tds >> m_data;\n\t}\n"
-		      "\tendResetModel();\n}" << endl
+		      "\tendResetModel();\n}" << Qt::endl
 		      ;
 	}
 }

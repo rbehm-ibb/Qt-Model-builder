@@ -8,5 +8,5 @@ Makefile
 .qmake.stash
 *.kate.swap
 *.autosave
-
+.qtc_clangd
 

@@ -76,6 +76,7 @@ void MainWindow::nameChanged()
 	ui->cbReadOnly->setChecked(m_dataStructModel->readOnly());
 	ui->cbInsert->setChecked(m_dataStructModel->insert());
 	ui->cbRemove->setChecked(m_dataStructModel->remove());
+	ui->cbAddRow->setChecked(m_dataStructModel->addRow());
 	ui->cbDirectAcess->setChecked(m_dataStructModel->directAccess());
 	ui->cbIndexAccess->setChecked(m_dataStructModel->indexedAccess());
 	ui->cbEditable->setChecked(m_dataStructModel->editable());
@@ -101,6 +102,7 @@ void MainWindow::guiToModel()
 	m_dataStructModel->setReadOnly(ui->cbReadOnly->isChecked());
 	m_dataStructModel->setInsert(ui->cbInsert->isChecked());
 	m_dataStructModel->setRemove(ui->cbRemove->isChecked());
+	m_dataStructModel->setAddRow(ui->cbAddRow->isChecked());
 	m_dataStructModel->setDirectAccess(ui->cbDirectAcess->isChecked());
 	m_dataStructModel->setIndexedAccess(ui->cbIndexAccess->isChecked());
 	m_dataStructModel->setEditable(ui->cbEditable->isChecked() && ! m_dataStructModel->readOnly());
