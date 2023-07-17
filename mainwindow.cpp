@@ -17,7 +17,6 @@ MainWindow::MainWindow(QWidget *parent)
 	, m_dataStructModel(new DataStructModel(this))
 {
 	ui->setupUi(this);
-	ui->toolBar->removeWhatis();
 	ui->dataStructView->setModel(m_dataStructModel);
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Type, new DataStructTypeDelegate(this));
 	ui->dataStructView->setItemDelegateForColumn(DataStructModel::Name, new DataStructNameDelegate(this));
