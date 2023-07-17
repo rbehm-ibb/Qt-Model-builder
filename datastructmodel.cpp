@@ -14,6 +14,7 @@ QVector<TypePair> DataStructModel::m_types(
 	TypePair("qint8", "toInt"),
 	TypePair("qint16", "toInt"),
 	TypePair("qint32", "toInt"),
+	TypePair("uint", "toUInt"),
 	TypePair("quint8", "toUInt"),
 	TypePair("quint16", "toUInt"),
 	TypePair("quint32", "toUInt"),
