@@ -25,4 +25,5 @@ RESOURCES += \
     rsc/rsc.qrc
 
 DISTFILES += \
-    demomodel.model
+    demomodel.model \
+    bin/demomodel.rc
